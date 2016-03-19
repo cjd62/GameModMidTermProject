@@ -228,7 +228,7 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 		case STAGE_INIT:
 			if ( wsfl.zoom ) {
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, spreadZoom, 0, 1.0f );
+				Attack ( true, 1, spreadZoom, 0, 3.0f );
 				fireHeld = true;
 			} else {
 				nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
@@ -238,6 +238,7 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
+			rvWeaponMachinegun::AddToClip(1);
 			if ( !fireHeld && wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
 				SetState ( "Fire", 0 );
 				return SRESULT_DONE;

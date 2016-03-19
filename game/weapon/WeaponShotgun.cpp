@@ -169,6 +169,7 @@ stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
 			return SRESULT_STAGE( STAGE_WAIT );
 	
 		case STAGE_WAIT:
+			rvWeaponShotgun::AddToClip(1);
 			if ( (!gameLocal.isMultiplayer && (wsfl.lowerWeapon || AnimDone( ANIMCHANNEL_ALL, 0 )) ) || AnimDone( ANIMCHANNEL_ALL, 0 ) ) {
 				SetState( "Idle", 0 );
 				return SRESULT_DONE;
