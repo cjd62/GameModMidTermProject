@@ -244,7 +244,7 @@ entityDef projectile_grenade
 	"def_damage"				"damage_grenadeDirect"
 	"def_splash_damage"			"damage_grenadeSplash"
 																											
-	"speed"						"2000"
+	"speed"						"700"
 	"angular_velocity"			"-10 5 1"
 	"settle_duration"			"0.08"
 	
@@ -257,7 +257,7 @@ entityDef projectile_grenade
 								
 	"detonate_on_fuse"			"1"
 	"detonate_on_death"			"0"
-	"detonate_on_world"			"1"
+	"detonate_on_world"			"0"
 	"detonate_on_actor"			"1"
 	"detonateTestGroundMaterial"	"1"
 								
@@ -296,7 +296,7 @@ entityDef projectile_grenade
 
 entityDef damage_grenadeDirect 
 {
-	"damage"					"1000"
+	"damage"					"125"
 	"gib"						"1"
 
 	"deathPush"					"200"
@@ -317,9 +317,9 @@ entityDef damage_grenadeDirect_mp
 
 entityDef damage_grenadeSplash 
 {
-	"damage"					"1000"
-	"radius"					"350"
-	"knockback"					"1000"
+	"damage"					"200"
+	"radius"					"250"
+	"knockback"					"100"
 	"push"						"10000"
 	"gib"						"0"
 

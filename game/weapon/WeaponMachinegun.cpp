@@ -172,6 +172,9 @@ stateResult_t rvWeaponMachinegun::State_Idle( const stateParms_t& parms ) {
 			if ( !AmmoAvailable ( ) ) {
 				SetStatus ( WP_OUTOFAMMO );
 			} else {
+				while(owner->inventory.ammo[2] != owner->inventory.MaxAmmoForAmmoClass(owner, "ammo_machinegun")){
+					owner->inventory.ammo[2] += 1;
+				}
 				SetStatus ( WP_READY );
 			}
 		
