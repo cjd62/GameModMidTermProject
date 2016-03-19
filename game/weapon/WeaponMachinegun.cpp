@@ -171,17 +171,31 @@ stateResult_t rvWeaponMachinegun::State_Idle( const stateParms_t& parms ) {
 		case STAGE_INIT:
 			if ( !AmmoAvailable ( ) ) {
 				SetStatus ( WP_OUTOFAMMO );
-			} else {
-				while(owner->inventory.ammo[2] != owner->inventory.MaxAmmoForAmmoClass(owner, "ammo_machinegun")){
-					owner->inventory.ammo[2] += 1;
-				}
+			} else {				
+				//while(owner->inventory.ammo[2] != owner->inventory.MaxAmmoForAmmoClass(owner, "ammo_machinegun")){
+			
+		//			owner->inventory.ammo[2] += 1;
+			//	}
 				SetStatus ( WP_READY );
 			}
 		
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
-		case STAGE_WAIT:			
+		case STAGE_WAIT:
+			if( gameLocal.time > owner->nextAmmoRegenPulse[2] && owner->inventory.ammo[ 2 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_machinegun")) {
+					int step		= owner->inventory.AmmoRegenStepForWeaponIndex( 2 );
+					int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( 2 );
+
+					if( owner->inventory.ammo[ 2 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_machinegun") ) {
+						owner->inventory.ammo[ 2 ] += step;
+					}
+					if( owner->inventory.ammo[ 2 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_machinegun") ) {
+						owner->inventory.ammo[ 2] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_machinegun");
+					}
+
+					owner->nextAmmoRegenPulse[ 2 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
