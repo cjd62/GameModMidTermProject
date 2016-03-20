@@ -193,6 +193,8 @@ entityDef weapon_nailgun_mp
 	"hidesurface"				"models/weapons/nailgun_mod_ammo"
 	"editor_ignore"				"1"
 	"inv_icon"				"gfx/guis/hud/icons/item_nailgun_colored.tga"
+	"mtr_simple_icon"			"simpleicons/item_nailgun_colored.tga"
+	"simple_icon_scale"			"32.0"
 	"model"						"models/weapons/nailgun/w_ng_mp.lwo"
 	"triggerSize"				"32"
 	
@@ -205,6 +207,9 @@ entityDef weapon_nailgun_mp
 	
 	"respawn_Team DM"			"30"
 	"respawn_Tourney"			"15"
+	
+	// played when you touch a weapon you can't acquire, i.e. weaponStay in MP
+	"snd_noAcquire"			"pickup_weaponstay"
 }
 
 entityDef moveable_item_nailgun
@@ -430,6 +435,7 @@ entityDef projectile_nail
 	"bloodyImpactEffect"		"1"
 	
 	"fx_fly"			"effects/weapons/nailgun/fly.fx"
+	"fx_fly_mp_low"		"effects/weapons/nailgun/fly_mp_low.fx"
 	"fx_impact"			"effects/weapons/nailgun/impact_default.fx"
 	"fx_impact_water"		"effects/ambient/splash_smll.fx"
 	"fx_impact_concrete"		"effects/weapons/nailgun/impact_concrete.fx"
@@ -445,6 +451,16 @@ entityDef projectile_nail
 	"fx_impact_glass_mp"		"effects/weapons/nailgun/impact_default_mp.fx"
 	"fx_impact_bpglass_mp"		"effects/weapons/nailgun/impact_default_mp.fx"
 	"fx_impact_electronics_mp"	"effects/weapons/nailgun/impact_default_mp.fx"
+	
+	"fx_teleport_enter"		"effects/mp/item_teleport.fx"
+	"fx_teleport"			"effects/mp/item_teleport.fx"
+}
+
+entityDef projectile_nail_mp
+{
+	"inherit"					"projectile_nail"
+	"speed"						"1400"
+	"no_impact_prediction"		"1"
 }
 
 entityDef projectile_nail_seek
@@ -492,13 +508,13 @@ entityDef damage_nailSplash
 entityDef damage_nailDirect_mp
 {
 	"inherit"				"damage_nailDirect"
-	"damage"				"30"
+	"damage"				"25"
 	"knockback"				"30"
 }
 
 entityDef damage_nailSplash_mp
 {
-	"damage"					"30"
+	"damage"					"25"
 	"radius"					"75"
 	"knockback"					"30"
 	"push"						"0"

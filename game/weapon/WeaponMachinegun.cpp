@@ -183,6 +183,7 @@ stateResult_t rvWeaponMachinegun::State_Idle( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
 		case STAGE_WAIT:
+			rvWeaponMachinegun::AddToClip(1);
 			if( gameLocal.time > owner->nextAmmoRegenPulse[2] && owner->inventory.ammo[ 2 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_machinegun")) {
 					int step		= owner->inventory.AmmoRegenStepForWeaponIndex( 2 );
 					int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( 2 );

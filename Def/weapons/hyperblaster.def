@@ -66,7 +66,7 @@ entityDef weapon_hyperblaster
   	"model_world"				"weapon_hyperblaster_world"
 	"model"						"models/weapons/hyperblaster/w_hb.lwo"
 	"def_dropItem"				"weapon_hyperblaster"
-	"def_projectile"			"projectile_hyperblaster"
+	"def_hitscan"				"hitscan_bullet"
 
 	"joint_attach"				"HB_ATTACHER"
 	"joint_view_guiLight"		"body"
@@ -151,6 +151,8 @@ entityDef weapon_hyperblaster_mp
 	"clipsize"				"0"
 	"editor_ignore"				"1"
 	"inv_icon"				"gfx/guis/hud/icons/item_hyperblaster_colored"
+	"mtr_simple_icon"				"simpleicons/item_hyperblaster_colored"
+	"simple_icon_scale"			"32.0"
 	"triggerSize"				"32"
 	
 	"muzzle_kick_time"			"0"
@@ -163,6 +165,10 @@ entityDef weapon_hyperblaster_mp
 	"respawn_Team DM"			"30"
 	"respawn_Tourney"			"15"
 
+	// played when you touch a weapon you can't acquire, i.e. weaponStay in MP
+	"snd_noAcquire"			"pickup_weaponstay"
+
+	"fireRate"					".07"
 }
 
 entityDef moveable_item_hyperblaster
@@ -265,9 +271,9 @@ entityDef weaponmod_hyperblaster_bounce2
 entityDef damage_hyperblaster
 {
 	"inherit"					"damage_blaster"
-	"damage"					"14"
+	"damage"					"1000"
 
-	"deathPush"					"100"
+	"deathPush"					"1000"
 	"deathPushMin"				"3000 350"
 	"deathPushMax"				"5000 500"
 }
@@ -325,12 +331,17 @@ entityDef projectile_hyperblaster
 	"fx_impact_glass_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
 	"fx_impact_bpglass_mp"		"effects/weapons/hyperblaster/impact_default_mp.fx"
 	"fx_impact_electronics_mp"	"effects/weapons/hyperblaster/impact_default_mp.fx"
+	
+	"fx_teleport_enter"		"effects/mp/item_teleport.fx"
+	"fx_teleport"			"effects/mp/item_teleport.fx"
 }
 
 entityDef projectile_hyperblaster_mp
 {
 	"inherit"					"projectile_hyperblaster"
 	"def_splash_damage"			"damage_hyperblaster_splash"	
+	"speed"						"1950"
+	"no_impact_prediction"		"1"
 }
 
 entityDef projectile_hyperblaster_bounce1
@@ -338,7 +349,7 @@ entityDef projectile_hyperblaster_bounce1
 	"inherit"					"projectile_hyperblaster"
 	"detonate_on_world"			"0"
 	"bounce"					"1"
-	"bounce_count"				"1"
+	"bounce_count"				"3"
 	"bounce_center"				"1"
 
 	"fx_bounce"					"effects/weapons/hyperblaster/bounce_default.fx"
