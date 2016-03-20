@@ -4886,6 +4886,10 @@ void idPlayer::UpdatePowerUps( void ) {
 // RITUAL BEGIN
 // squirrel: health regen only applies if you have positive health
 		if( health > 0 ) {
+			if (health < inventory.maxHealth){
+				nextHealthPulse = gameLocal.time + HEALTH_PULSE;
+				health ++;
+			}
 			if ( PowerUpActive ( POWERUP_REGENERATION ) || PowerUpActive ( POWERUP_GUARD ) ) {
 				int healthBoundary = inventory.maxHealth; // health will regen faster under this value, slower above
 				int healthTic = 15;
