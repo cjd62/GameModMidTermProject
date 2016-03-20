@@ -122,7 +122,21 @@ stateResult_t rvWeaponShotgun::State_Idle( const stateParms_t& parms ) {
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
-		case STAGE_WAIT:			
+		case STAGE_WAIT:		
+			rvWeaponShotgun::AddToClip(5);
+			if( gameLocal.time > owner->nextAmmoRegenPulse[5] && owner->inventory.ammo[ 5 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun")) {
+					int step		= owner->inventory.AmmoRegenStepForWeaponIndex( 5 );
+					int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( 5 );
+
+					if( owner->inventory.ammo[ 5 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun") ) {
+						owner->inventory.ammo[ 5 ] += step;
+					}
+					if( owner->inventory.ammo[ 5 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun") ) {
+						owner->inventory.ammo[ 5 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun");
+					}
+
+					owner->nextAmmoRegenPulse[ 5 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				SetState( "Lower", 4 );
 				return SRESULT_DONE;
