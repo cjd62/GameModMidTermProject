@@ -333,7 +333,7 @@ void idInventory::RestoreInventory( idPlayer *owner, const idDict &dict ) {
 	//Clear();
 
 	// health/armor
-	maxHealth		= dict.GetInt( "maxhealth", "100" );
+	maxHealth		= dict.GetInt( "maxhealth", "200" );
 	armor			= dict.GetInt( "armor", "50" );
 	maxarmor		= dict.GetInt( "maxarmor", "100" );
 
@@ -1381,7 +1381,6 @@ void idPlayer::SetWeapon( int weaponIndex ) {
 		weaponGone = true;
 		return;
 	}
-	
 	animPrefix = spawnArgs.GetString( va( "def_weapon%d", currentWeapon ) );
 
 	idTypeInfo*	typeInfo;
@@ -4277,9 +4276,16 @@ idPlayer::PowerUpModifier
 */
 float idPlayer::PowerUpModifier( int type ) {
 	float mod = 1.0f;
-
 	if ( PowerUpActive( POWERUP_QUADDAMAGE ) ) {
+		//slow but tanky with a lot of power
+		this->inventory.maxarmor = 500;
+		this->inventory.maxHealth = 100;
+
 		switch( type ) {
+			case PMOD_SPEED: {
+				mod *= .5f;
+				break;
+			}
 			case PMOD_PROJECTILE_DAMAGE: {
 				mod *= 3.0f;
 				break;
@@ -4294,11 +4300,13 @@ float idPlayer::PowerUpModifier( int type ) {
 			}
 		}
 	}
-
+	//everytime power up comes on, you will have 50 health and 50 armor, faster but lower armor and health
 	if ( PowerUpActive( POWERUP_HASTE ) ) {
+		this->inventory.maxHealth = 50;
+		this->inventory.maxarmor = 50;
 		switch ( type ) {
 			case PMOD_SPEED:	
-				mod *= 1.3f;
+				mod *= 2.0f; //used to be 1.3
 				break;
 
 			case PMOD_FIRERATE:
@@ -4306,25 +4314,48 @@ float idPlayer::PowerUpModifier( int type ) {
 				break;
 		}
 	}
-
-	// Arena CTF powerups
-	if( PowerUpActive( POWERUP_AMMOREGEN ) ) {
-		switch( type ) {
-			case PMOD_FIRERATE: {
-				mod *= 0.7f;
+	if ( PowerUpActive( POWERUP_INVISIBILITY) ) { //Invincible and extra damage 
+		godmode = 1;
+		health = inventory.maxHealth;
+		inventory.armor = inventory.maxarmor;
+		switch ( type ) {
+			case PMOD_PROJECTILE_DAMAGE: {
+				mod *= 3.0f;
 				break;
 			}
 		}
 	}
 
-	if( PowerUpActive( POWERUP_DOUBLER ) ) {
+	// Arena CTF powerup
+	if( PowerUpActive( POWERUP_AMMOREGEN ) ) { //Only on the gauntlet - increase speed and melee power but lower the health
+		this->inventory.maxarmor = 0;
+		this->inventory.maxHealth = 30;
+		switch( type ) {
+			case PMOD_SPEED: {
+				mod *= 2.0f;
+				break;
+			}
+			case PMOD_MELEE_DAMAGE: {
+				mod *= 3.0f;
+				break;
+			}
+		}
+	}
+
+	if( PowerUpActive( POWERUP_DOUBLER ) ) { //shoot multiple bullets
+		this->inventory.maxarmor = 200;
+		this->inventory.maxHealth = 200;
 		switch( type ) {
 			case PMOD_PROJECTILE_DAMAGE: {
 				mod *= 2.0f;
 				break;
 			}
-			case PMOD_MELEE_DAMAGE: {
-				mod *= 2.0f;
+			case PMOD_MULTIPLE: {
+				mod *= 10.0f;
+				break;
+			}
+			case PMOD_SPREAD: {
+				mod *= 10.0f;
 				break;
 			}
 		}
@@ -4455,7 +4486,7 @@ void idPlayer::StartPowerUpEffect( int powerup ) {
 		
 		case POWERUP_INVISIBILITY: {
 			powerUpOverlay = invisibilityOverlay;
-
+			
 			powerUpSkin = declManager->FindSkin( spawnArgs.GetString( "skin_invisibility" ), false );
 			break;
 		}
@@ -4689,7 +4720,7 @@ bool idPlayer::GivePowerUp( int powerup, int time, bool team ) {
 		}
 
 		case POWERUP_REGENERATION: {
-			nextHealthPulse = gameLocal.time + HEALTH_PULSE;
+			//nextHealthPulse = gameLocal.time + HEALTH_PULSE; alrteady regenerates health on his own
 
 			// Have to test for this because buying the team regeneration powerup will cause
 			// this to get hit multiple times as the server distributes the powerups to the clients.
@@ -4886,6 +4917,10 @@ void idPlayer::UpdatePowerUps( void ) {
 // RITUAL BEGIN
 // squirrel: health regen only applies if you have positive health
 		if( health > 0 ) {
+			if (health < inventory.maxHealth){
+				nextHealthPulse = gameLocal.time + HEALTH_PULSE;
+				health ++;
+			}
 			if ( PowerUpActive ( POWERUP_REGENERATION ) || PowerUpActive ( POWERUP_GUARD ) ) {
 				int healthBoundary = inventory.maxHealth; // health will regen faster under this value, slower above
 				int healthTic = 15;
@@ -5464,6 +5499,7 @@ idPlayer::LastWeapon
 ===============
 */
 void idPlayer::LastWeapon( void ) {
+	this->ClearPowerUps();
 	// Dont bother if previousWeapon is invalid or the player is spectating
 	if ( spectating || previousWeapon < 0 )	{
 		return;
@@ -5483,6 +5519,7 @@ idPlayer::NextBestWeapon
 ===============
 */
 void idPlayer::NextBestWeapon( void ) {
+	this->ClearPowerUps();
 	const char *weap;
 	int w = MAX_WEAPONS;
 
@@ -5512,6 +5549,7 @@ idPlayer::NextWeapon
 ===============
 */
 void idPlayer::NextWeapon( void ) {
+	this->ClearPowerUps();
 	const char *weap;
 	int w;
 
@@ -5610,6 +5648,7 @@ idPlayer::PrevWeapon
 ===============
 */
 void idPlayer::PrevWeapon( void ) {
+	this->ClearPowerUps();
 	const char *weap;
 	int w;
 

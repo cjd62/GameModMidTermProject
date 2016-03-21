@@ -469,6 +469,7 @@ stateResult_t rvWeaponGauntlet::State_Fire ( const stateParms_t& parms ) {
 		STAGE_END,
 		STAGE_END_WAIT
 	};	
+	owner->GivePowerUp(7,20000);
 	switch ( parms.stage ) {
 		case STAGE_START:	
 			PlayAnim ( ANIMCHANNEL_ALL, "attack_start", parms.blendFrames );

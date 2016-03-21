@@ -404,7 +404,6 @@ stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case FIRE_INIT:	
-
 			StopSound ( SND_CHANNEL_ITEM, false );
 			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, 0 );
 			//don't fire if we're targeting a gui.
@@ -427,11 +426,11 @@ stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
 
 	
 			if ( gameLocal.time - fireHeldTime > chargeTime ) {	
-				Attack ( true, 1, spread, 0, 1.0f );
+				Attack ( true, 10, spread+ 10, 0, 1.0f );
 				PlayEffect ( "fx_chargedflash", barrelJointView, false );
 				PlayAnim( ANIMCHANNEL_ALL, "chargedfire", parms.blendFrames );
 			} else {
-				Attack ( false, 1, spread, 0, 1.0f );
+				Attack ( false, 5, spread + 10, 0, 1.0f );
 				PlayEffect ( "fx_normalflash", barrelJointView, false );
 				PlayAnim( ANIMCHANNEL_ALL, "fire", parms.blendFrames );
 			}

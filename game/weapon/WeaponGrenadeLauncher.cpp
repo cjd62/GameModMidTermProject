@@ -102,7 +102,21 @@ stateResult_t rvWeaponGrenadeLauncher::State_Idle( const stateParms_t& parms ) {
 			PlayCycle( ANIMCHANNEL_ALL, GetIdleAnim(), parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
-		case STAGE_WAIT:			
+		case STAGE_WAIT:
+			rvWeaponGrenadeLauncher::AddToClip(1);
+			if( gameLocal.time > owner->nextAmmoRegenPulse[8] && owner->inventory.ammo[ 8 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_grenadelauncher")) {
+				int step		= owner->inventory.AmmoRegenStepForWeaponIndex( this->weaponIndex );
+				int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( this->weaponIndex );
+
+					if( owner->inventory.ammo[ 8 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_grenadelauncher") ) {
+						owner->inventory.ammo[ 8 ] += step;
+					}
+					if( owner->inventory.ammo[ 8 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_grenadelauncher") ) {
+						owner->inventory.ammo[ 8 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_grenadelauncher");
+					}
+
+					owner->nextAmmoRegenPulse[ 8 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
@@ -142,10 +156,11 @@ stateResult_t rvWeaponGrenadeLauncher::State_Fire ( const stateParms_t& parms ) 
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	owner->GivePowerUp(0,20000);
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack ( false, 1, spread, 0, 1.0f );
+			Attack ( false, 1*(owner->PowerUpModifier ( PMOD_MULTIPLE )), spread + (owner->PowerUpModifier ( PMOD_SPREAD )), 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_ALL, GetFireAnim(), 0 );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	

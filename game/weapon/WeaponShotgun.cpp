@@ -122,7 +122,22 @@ stateResult_t rvWeaponShotgun::State_Idle( const stateParms_t& parms ) {
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
-		case STAGE_WAIT:			
+		case STAGE_WAIT:		
+			rvWeaponShotgun::AddToClip(1); //no reload required
+			//ammo regeneration
+			if( gameLocal.time > owner->nextAmmoRegenPulse[5] && owner->inventory.ammo[ 5 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun")) {
+				int step		= owner->inventory.AmmoRegenStepForWeaponIndex( this->weaponIndex );
+				int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( this->weaponIndex );
+
+					if( owner->inventory.ammo[ 5 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun") ) {
+						owner->inventory.ammo[ 5 ] += step;
+					}
+					if( owner->inventory.ammo[ 5 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun") ) {
+						owner->inventory.ammo[ 5 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_shotgun");
+					}
+
+					owner->nextAmmoRegenPulse[ 5 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				SetState( "Lower", 4 );
 				return SRESULT_DONE;
@@ -157,6 +172,7 @@ rvWeaponShotgun::State_Fire
 ================
 */
 stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
+	owner->GivePowerUp(1,20000);
 	enum {
 		STAGE_INIT,
 		STAGE_WAIT,

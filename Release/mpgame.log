@@ -1,0 +1,18 @@
+﻿Build started 3/21/2016 2:11:13 PM.
+     1>Project "C:\Users\Acer\GameModMidTermProject\mpgame.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Release\mpgame.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         mpgame.vcxproj -> C:\Users\Acer\GameModMidTermProject\.\Release\mpgame.dll
+       FinalizeBuildStatus:
+         Deleting file ".\Release\mpgame.unsuccessfulbuild".
+         Touching ".\Release\mpgame.lastbuildstate".
+     1>Done Building Project "C:\Users\Acer\GameModMidTermProject\mpgame.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.22

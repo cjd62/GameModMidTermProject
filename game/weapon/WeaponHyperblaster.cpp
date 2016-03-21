@@ -185,7 +185,21 @@ stateResult_t rvWeaponHyperblaster::State_Idle( const stateParms_t& parms ) {
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
-		case STAGE_WAIT:			
+		case STAGE_WAIT:
+			rvWeaponHyperblaster::AddToClip(1);
+			if( gameLocal.time > owner->nextAmmoRegenPulse[6] && owner->inventory.ammo[ 6 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_hyperblaster")) {
+				int step		= owner->inventory.AmmoRegenStepForWeaponIndex( this->weaponIndex );
+				int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( this->weaponIndex );
+
+					if( owner->inventory.ammo[ 6 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_hyperblaster") ) {
+						owner->inventory.ammo[ 6 ] += step;
+					}
+					if( owner->inventory.ammo[ 6 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_hyperblaster") ) {
+						owner->inventory.ammo[ 6 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_hyperblaster");
+					}
+
+					owner->nextAmmoRegenPulse[ 6 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;

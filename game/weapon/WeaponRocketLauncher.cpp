@@ -420,6 +420,20 @@ stateResult_t rvWeaponRocketLauncher::State_Idle( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
 		case STAGE_WAIT:
+			rvWeaponRocketLauncher::AddToClip(1);
+			if( gameLocal.time > owner->nextAmmoRegenPulse[7] && owner->inventory.ammo[ 7 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_rocketlauncher")) {
+				int step		= owner->inventory.AmmoRegenStepForWeaponIndex( this->weaponIndex );
+				int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( this->weaponIndex );
+
+					if( owner->inventory.ammo[ 7 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_rocketlauncher") ) {
+						owner->inventory.ammo[ 7 ] += step;
+					}
+					if( owner->inventory.ammo[ 7 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_rocketlauncher") ) {
+						owner->inventory.ammo[ 7 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_rocketlauncher");
+					}
+
+					owner->nextAmmoRegenPulse[ 7 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
@@ -443,10 +457,11 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	owner->GivePowerUp(9,20000);
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));		
-			Attack ( false, 1, spread, 0, 1.0f );
+			Attack ( false, 1*owner->PowerUpModifier( PMOD_MULTIPLE ), spread + owner->PowerUpModifier( PMOD_SPREAD ), 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_LEGS, "fire", parms.blendFrames );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	

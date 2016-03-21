@@ -273,7 +273,22 @@ stateResult_t rvWeaponDarkMatterGun::State_Idle( const stateParms_t& parms ) {
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
-		case STAGE_WAIT:				
+		case STAGE_WAIT:
+			rvWeaponDarkMatterGun::AddToClip(1); //no reload required
+			//ammo regeneration
+			if( gameLocal.time > owner->nextAmmoRegenPulse[10] && owner->inventory.ammo[ 10 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_dmg")) {
+				int step		= owner->inventory.AmmoRegenStepForWeaponIndex( this->weaponIndex );
+				int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( this->weaponIndex );
+
+					if( owner->inventory.ammo[ 10 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_dmg") ) {
+						owner->inventory.ammo[ 10 ] += step;
+					}
+					if( owner->inventory.ammo[ 10 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_dmg") ) {
+						owner->inventory.ammo[ 10 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_dmg");
+					}
+
+					owner->nextAmmoRegenPulse[ 10 ] = gameLocal.time + time;
+				}
 
 			if ( wsfl.lowerWeapon ) {
 				SetState ( "Lower", 4 );
@@ -309,6 +324,7 @@ stateResult_t rvWeaponDarkMatterGun::State_Fire ( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	owner->GivePowerUp(3,20000);
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			StopRings ( );

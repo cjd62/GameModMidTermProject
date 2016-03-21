@@ -155,6 +155,9 @@ enum {
 	PMOD_MELEE_DISTANCE,
 	PMOD_PROJECTILE_DEATHPUSH,
 	PMOD_FIRERATE,
+	PMOD_MULTIPLE, //added to increase the number of attacks
+	PMOD_SPREAD,
+
 	PMOD_MAX
 };
 
