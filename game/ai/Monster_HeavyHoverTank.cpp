@@ -228,7 +228,6 @@ void rvMonsterHeavyHoverTank::OnDeath ( void ) {
 		effectHover->Stop ( );
 		effectHover = NULL;
 	}
-	
 	idAI::OnDeath ( );
 }
 

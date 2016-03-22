@@ -750,7 +750,6 @@ void rvMonsterStroggHover::OnDeath ( void ) {
 			effectHover[i] = NULL;
 		}
 	}
-
 	idAI::OnDeath ( );
 }
 

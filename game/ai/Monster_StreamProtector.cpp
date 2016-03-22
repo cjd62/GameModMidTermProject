@@ -262,6 +262,8 @@ rvMonsterStreamProtector::State_Killed
 ================
 */
 stateResult_t rvMonsterStreamProtector::State_Killed ( const stateParms_t& parms ) {
+	idPlayer* p = gameLocal.GetLocalPlayer();
+	p->GiveItem("weapon_dmg");
 	// Make sure all animation stops
 	StopAnimState ( ANIMCHANNEL_TORSO );
 	StopAnimState ( ANIMCHANNEL_LEGS );

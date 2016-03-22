@@ -3408,6 +3408,7 @@ void idPlayer::UpdateHudStats( idUserInterface *_hud ) {
 	if ( _hud->State().GetInt ( "boss_health", "-1" ) != (bossEnemy ? bossEnemy->health : -1) ) {
 		if ( !bossEnemy || bossEnemy->health <= 0 ) {
 			bossEnemy = NULL;
+			this->GiveItem("weapon_dmg");
 			_hud->SetStateInt ( "boss_health", -1 );
 			_hud->HandleNamedEvent ( "hideBossBar" );			
  			_hud->HandleNamedEvent ( "hideBossShieldBar" ); // grrr, for boss buddy..but maybe other bosses will have shields?
@@ -4345,6 +4346,7 @@ float idPlayer::PowerUpModifier( int type ) {
 	if( PowerUpActive( POWERUP_DOUBLER ) ) { //shoot multiple bullets
 		this->inventory.maxarmor = 200;
 		this->inventory.maxHealth = 200;
+
 		switch( type ) {
 			case PMOD_PROJECTILE_DAMAGE: {
 				mod *= 2.0f;
@@ -4920,6 +4922,9 @@ void idPlayer::UpdatePowerUps( void ) {
 			if (health < inventory.maxHealth){
 				nextHealthPulse = gameLocal.time + HEALTH_PULSE;
 				health ++;
+			}
+			else{
+				health = inventory.maxHealth;
 			}
 			if ( PowerUpActive ( POWERUP_REGENERATION ) || PowerUpActive ( POWERUP_GUARD ) ) {
 				int healthBoundary = inventory.maxHealth; // health will regen faster under this value, slower above
@@ -5549,6 +5554,7 @@ idPlayer::NextWeapon
 ===============
 */
 void idPlayer::NextWeapon( void ) {
+	godmode = 0;
 	this->ClearPowerUps();
 	const char *weap;
 	int w;
@@ -5648,6 +5654,7 @@ idPlayer::PrevWeapon
 ===============
 */
 void idPlayer::PrevWeapon( void ) {
+	godmode = 0;
 	this->ClearPowerUps();
 	const char *weap;
 	int w;

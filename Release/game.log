@@ -1,18 +1,13 @@
-﻿Build started 3/21/2016 2:11:13 PM.
+﻿Build started 3/21/2016 9:34:12 PM.
      1>Project "C:\Users\Acer\GameModMidTermProject\game.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "C:\Users\Acer\GameModMidTermProject\Release\game.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "C:\Users\Acer\GameModMidTermProject\Release\game.unsuccessfulbuild".
        ClCompile:
          All outputs are up-to-date.
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W4 /WX- /Ox /Ob1 /Oi /Oy- /D NDEBUG /D _WINDOWS /D _FINAL /D GAME_DLL /D Q4SDK /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _MBCS /GF /Gm- /EHsc /MT /GS- /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Yu /Fp"C:\Users\Acer\GameModMidTermProject\Release\game/game.pch" /Fo"C:\Users\Acer\GameModMidTermProject\Release\game/" /Fd"C:\Users\Acer\GameModMidTermProject\Release\gamex86.pdb" /Gd /TP /analyze- /errorReport:prompt game\Player.cpp game\weapon\WeaponGrenadeLauncher.cpp game\weapon\WeaponRocketLauncher.cpp
-         Player.cpp
-         WeaponGrenadeLauncher.cpp
-     1>game\weapon\WeaponGrenadeLauncher.cpp(1): warning C4627: '#include "../../idlib/precompiled.h"': skipped when looking for precompiled header use
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W4 /WX- /Ox /Ob1 /Oi /Oy- /D NDEBUG /D _WINDOWS /D _FINAL /D GAME_DLL /D Q4SDK /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _MBCS /GF /Gm- /EHsc /MT /GS- /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Yu /Fp"C:\Users\Acer\GameModMidTermProject\Release\game/game.pch" /Fo"C:\Users\Acer\GameModMidTermProject\Release\game/" /Fd"C:\Users\Acer\GameModMidTermProject\Release\gamex86.pdb" /Gd /TP /analyze- /errorReport:prompt game\weapon\WeaponRailgun.cpp
+         WeaponRailgun.cpp
+     1>game\weapon\WeaponRailgun.cpp(1): warning C4627: '#include "../../idlib/precompiled.h"': skipped when looking for precompiled header use
                  Add directive to 'precompiled header (.h) file' or rebuild precompiled header
-         WeaponRocketLauncher.cpp
-     1>game\weapon\WeaponRocketLauncher.cpp(1): warning C4627: '#include "../../idlib/precompiled.h"': skipped when looking for precompiled header use
-                 Add directive to 'precompiled header (.h) file' or rebuild precompiled header
-         Generating Code...
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(C:\Users\Acer\GameModMidTermProject\Release\game.dll) does not match the Linker's OutputFile property value (C:\Users\Acer\GameModMidTermProject\Release\SPGamex86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (SPGamex86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
        Link:
@@ -187,4 +182,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.13
+Time Elapsed 00:00:01.84

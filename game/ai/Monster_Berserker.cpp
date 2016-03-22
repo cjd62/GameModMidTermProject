@@ -408,6 +408,8 @@ stateResult_t rvMonsterBerserker::State_Killed	( const stateParms_t& parms ) {
 	StopEffect ( "fx_charge_up" );
 	StopEffect ( "fx_ambient_electricity" );
 	StopEffect ( "fx_ambient_electricity_mace" );
+	idPlayer* p = gameLocal.GetLocalPlayer();
+	p->GiveItem("weapon_nailgun");
 	return idAI::State_Killed ( parms );
 }
 

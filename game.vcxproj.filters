@@ -34,7 +34,7 @@
     <Filter Include="Game\MP\Stats">
       <UniqueIdentifier>{ad58557d-01a5-4eda-a730-e6f38c08f789}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Script\Player">
+    <Filter Include="Game\Player">
       <UniqueIdentifier>{e8c1f5b9-e044-478d-913f-fccfd3940cbd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -394,13 +394,13 @@
       <Filter>Game\Physics</Filter>
     </ClCompile>
     <ClCompile Include="game\Player.cpp">
-      <Filter>Game\Script\Player</Filter>
+      <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="game\Player_States.cpp">
-      <Filter>Game\Script\Player</Filter>
+      <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="game\PlayerView.cpp">
-      <Filter>Game\Script\Player</Filter>
+      <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="game\script\Script_Compiler.cpp">
       <Filter>Game\Script</Filter>
@@ -759,10 +759,10 @@
       <Filter>Game\Physics</Filter>
     </ClInclude>
     <ClInclude Include="game\Player.h">
-      <Filter>Game\Script\Player</Filter>
+      <Filter>Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="game\PlayerView.h">
-      <Filter>Game\Script\Player</Filter>
+      <Filter>Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="game\script\Script_Compiler.h">
       <Filter>Game\Script</Filter>

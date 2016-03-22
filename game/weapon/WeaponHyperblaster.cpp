@@ -239,6 +239,7 @@ stateResult_t rvWeaponHyperblaster::State_Fire ( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	owner->GivePowerUp(0,20000);
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			SpinUp ( );

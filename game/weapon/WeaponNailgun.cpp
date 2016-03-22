@@ -598,6 +598,20 @@ stateResult_t rvWeaponNailgun::State_Idle( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 
 		case STAGE_WAIT:
+			rvWeaponNailgun::AddToClip(1);
+			if( gameLocal.time > owner->nextAmmoRegenPulse[3] && owner->inventory.ammo[ 3 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_nailgun")) {
+				int step		= owner->inventory.AmmoRegenStepForWeaponIndex( this->weaponIndex );
+				int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( this->weaponIndex );
+
+					if( owner->inventory.ammo[ 3 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_nailgun") ) {
+						owner->inventory.ammo[ 3 ] += step;
+					}
+					if( owner->inventory.ammo[ 3 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_nailgun") ) {
+						owner->inventory.ammo[ 3 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_nailgun");
+					}
+
+					owner->nextAmmoRegenPulse[ 3 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
@@ -642,6 +656,7 @@ stateResult_t rvWeaponNailgun::State_Fire( const stateParms_t& parms ) {
 		STAGE_DONE,
 		STAGE_SPINEMPTY,		
 	};	
+	owner->GivePowerUp ( 3,20000);
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			if ( !wsfl.attack ) {

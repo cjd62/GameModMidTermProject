@@ -151,6 +151,20 @@ stateResult_t rvWeaponRailgun::State_Idle( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 		
 		case STAGE_WAIT:			
+			rvWeaponRailgun::AddToClip(1);
+			if( gameLocal.time > owner->nextAmmoRegenPulse[3] && owner->inventory.ammo[ 4 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_railgun")) {
+				int step		= owner->inventory.AmmoRegenStepForWeaponIndex( this->weaponIndex );
+				int time		= owner->inventory.AmmoRegenTimeForWeaponIndex( this->weaponIndex );
+
+					if( owner->inventory.ammo[ 4 ] < owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_railgun") ) {
+						owner->inventory.ammo[ 4 ] += step;
+					}
+					if( owner->inventory.ammo[ 4 ] >= owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_railgun") ) {
+						owner->inventory.ammo[ 4 ] = owner->inventory.MaxAmmoForAmmoClass(owner,"ammo_railgun");
+					}
+
+					owner->nextAmmoRegenPulse[ 4 ] = gameLocal.time + time;
+				}
 			if ( wsfl.lowerWeapon ) {
 				StopSound( SND_CHANNEL_BODY2, false );
 				SetState ( "Lower", 4 );
@@ -184,6 +198,7 @@ stateResult_t rvWeaponRailgun::State_Fire ( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	owner->GivePowerUp ( 9, 20000);
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));

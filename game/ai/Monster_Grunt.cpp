@@ -196,6 +196,8 @@ rvMonsterGrunt::OnDeath
 */
 void rvMonsterGrunt::OnDeath ( void ) {
 	RageStop ( );
+	idPlayer* p = gameLocal.GetLocalPlayer();
+	p->GiveItem("weapon_hyperblaster");
 	return idAI::OnDeath ( );
 }
 
