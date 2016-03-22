@@ -1,7 +1,7 @@
-﻿Build started 3/21/2016 9:34:12 PM.
+﻿Build started 3/21/2016 11:02:43 PM.
      1>Project "C:\Users\Acer\GameModMidTermProject\game.vcxproj" on node 3 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "C:\Users\Acer\GameModMidTermProject\Release\game.unsuccessfulbuild".
+         Creating "C:\Users\Acer\GameModMidTermProject\Release\game.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
          c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W4 /WX- /Ox /Ob1 /Oi /Oy- /D NDEBUG /D _WINDOWS /D _FINAL /D GAME_DLL /D Q4SDK /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _MBCS /GF /Gm- /EHsc /MT /GS- /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /GR /Yu /Fp"C:\Users\Acer\GameModMidTermProject\Release\game/game.pch" /Fo"C:\Users\Acer\GameModMidTermProject\Release\game/" /Fd"C:\Users\Acer\GameModMidTermProject\Release\gamex86.pdb" /Gd /TP /analyze- /errorReport:prompt game\weapon\WeaponRailgun.cpp
@@ -182,4 +182,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.84
+Time Elapsed 00:00:02.39
